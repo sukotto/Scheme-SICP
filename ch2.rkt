@@ -98,3 +98,56 @@
        (h (r-height rectangle)))
     (* w h)))
          
+;2.1.4 Interval Arithmetic
+(define (add-interval x y)
+  (make-interval (+ (lower-bound x) (lower-bound y))
+                 (+ (upper-bound x) (upper-bound y))))
+
+(define (mul-interval x y)
+  (let ((p1 (* (lower-bound x) (lower-bound y)))
+        (p2 (* (lower-bound x) (upper-bound y)))
+        (p3 (* (upper-bound x) (lower-bound y)))
+        (p4 (* (upper-bound x) (upper-bound y))))
+    (make-interval (min p1 p2 p3 p4)
+                   (max p1 p2 p3 p4))))
+
+(define (div-interval x y)
+  (mul-interval x 
+                (make-interval (/ 1.0 (upper-bound y))
+                               (/ 1.0 (lower-bound y)))))
+
+;Exercise 2.7
+(define (make-interval a b) (cons a b))
+
+(define (lower-bound interval)
+  (car interval))
+
+(define (upper-bound interval)
+  (cdr interval))
+
+;Exercise 2.8
+(define (sub-interval a b)
+  (make-interval (- (lower-bound a)(upper-bound b))
+                 (- (upper-bound a)(lower-bound b))))
+
+(define (make-center-width c w)
+  (make-interval (- c w) (+ c w)))
+(define (center i)
+  (/ (+ (lower-bound i) (upper-bound i)) 2))
+(define (width i)
+  (/ (- (upper-bound i) (lower-bound i)) 2))
+
+; Exercise 2.12
+(define (make-center-percent center percent)
+  (let*((bound (* center (/ percent 100.0)))
+        (lower (- center bound))
+       (upper (+ center bound)))
+    (make-interval lower upper)))
+
+(define (percent interval)
+  (let*((width (abs(- (center interval) 
+                      (lower-bound interval))))
+        (percent-value (/ (* width 100.0)
+                          (center interval))))
+    percent-value))
+
