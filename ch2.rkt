@@ -151,3 +151,17 @@
                           (center interval))))
     percent-value))
 
+; 2.2 Hierarchical Data and the Closure Property
+; Exercise 2.17.
+(define (last-pair l)
+  (if(null? (cdr l))
+     l
+     (last-pair (cdr l))))
+
+; Exercise 2.18.
+(define (reverse l)
+  (define (aux l acc)
+    (if(null? l)
+       acc
+       (aux (cdr l)(cons(car l)acc))))
+  (aux l '()))
