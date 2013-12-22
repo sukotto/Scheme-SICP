@@ -1,7 +1,7 @@
 #lang racket
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; 2.1 Introduction to Data Abstraction
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;(define (make-rat n d) (cons n d))
 
 ; Exercise 2.1
@@ -150,8 +150,10 @@
         (percent-value (/ (* width 100.0)
                           (center interval))))
     percent-value))
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; 2.2 Hierarchical Data and the Closure Property
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; 2.2.1 Representing Sequences
 ; Exercise 2.17.
 (define (last-pair l)
   (if(null? (cdr l))
@@ -165,3 +167,29 @@
        acc
        (aux (cdr l)(cons(car l)acc))))
   (aux l '()))
+
+; Exercise 2.20.
+(define (same-parity x . xs)
+  (cond[(even? x)
+     (cons x (filter even? xs))]
+     [(odd? x)
+      (cons x (filter odd? xs))]
+     [else "Error: wrong input"]))
+
+; Exercise 2.21.
+;(define (square-list items)
+;   (if (null? items)
+;       null
+;       (cons (* (car items)(car items)) 
+;             (square-list (cdr items)))))
+
+(define (square-list items)
+   (map (λ(x)(* x x)) items))
+
+; Exercise 2.23.
+(define (for-each f xs)
+  (if(null? xs) 
+     #t
+     (and (f (car xs))
+              (for-each f (cdr xs)))))
+     
