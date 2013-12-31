@@ -192,4 +192,26 @@
      #t
      (and (f (car xs))
               (for-each f (cdr xs)))))
-     
+
+;2.2.2 Hierarchical Structures
+(define (count-leaves x)
+  (cond ((null? x) 0)  
+        ((not (pair? x)) 1)
+        (else (+ (count-leaves (car x))
+                 (count-leaves (cdr x))))))
+
+;2.28.
+(define(fringe x)
+  (cond[(null? x)null]
+       [(not(list? x))(list x)]
+       [(append (fringe (first x))
+              (fringe (rest x)))]))
+
+;Mapping over trees
+;2.30.
+(define (square-tree t)
+  (cond[(null? t)null]
+       [(not(list? t))(* t t)]
+       [else (cons(square-tree (first t))
+                  (square-tree (rest t)))]))
+
