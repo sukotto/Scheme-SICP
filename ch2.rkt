@@ -1,4 +1,5 @@
 #lang racket
+(require "ch1.rkt")
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; 2.1 Introduction to Data Abstraction
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -209,9 +210,17 @@
 
 ;Mapping over trees
 ;2.30.
-(define (square-tree t)
-  (cond[(null? t)null]
-       [(not(list? t))(* t t)]
-       [else (cons(square-tree (first t))
-                  (square-tree (rest t)))]))
+;(define (square-tree t)
+;  (cond[(null? t)null]
+;       [(not(list? t))(* t t)]
+;       [else (cons(square-tree (first t))
+;                  (square-tree (rest t)))]))
 
+;2.31
+(define (tree-map f t)
+  (cond [(null? t)null]
+        [(not(list? t))(f t)]
+        [else (cons (tree-map f (first t))
+                    (tree-map f (rest t)))]))
+
+(define (square-tree tree) (tree-map square tree))
