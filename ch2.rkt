@@ -224,3 +224,11 @@
                     (tree-map f (rest t)))]))
 
 (define (square-tree tree) (tree-map square tree))
+
+
+;2.32.
+(define (subsets s)
+  (if (null? s)
+      (list null)
+      (let ((rest (subsets (cdr s))))
+        (append rest (map (λ(x)(cons (car s) x)) rest)))))
