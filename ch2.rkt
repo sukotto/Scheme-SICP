@@ -232,3 +232,55 @@
       (list null)
       (let ((rest (subsets (cdr s))))
         (append rest (map (λ(x)(cons (car s) x)) rest)))))
+
+;2.2.3 Sequences as Conventional Interfaces
+(define (accumulate op initial sequence)
+  (if (null? sequence)
+      initial
+      (op (car sequence)
+          (accumulate op initial (cdr sequence)))))
+
+(define (enumerate-interval low high)
+  (if (> low high)
+      null
+      (cons low (enumerate-interval (+ low 1) high))))
+
+;Exercise 2.33 Define some list-manipulation operations as accumulations
+ (define (acc-map p sequence)
+   (accumulate (lambda (x y) (cons (p x) y)) '() sequence))
+ 
+ (define (acc-append seq1 seq2)
+   (accumulate cons seq2 seq1))
+ 
+ (define (acc-length sequence)
+   (accumulate (lambda (x y) (+ 1 y)) 0 sequence))
+ 
+ ;Exercise 2.34
+ (define (horner-eval x coefficient-sequence)
+   (accumulate (lambda (this-coeff higher-terms) (+ this-coeff (* x higher-terms)))
+               0
+               coefficient-sequence))
+ 
+ 
+ ;Exercise 2.36
+ (define (accumulate-n op init seqs)
+   (if (null? (car seqs))
+       '()
+       (cons (accumulate op init (map (lambda(x)(car x)) seqs))
+             (accumulate-n op init (map(lambda(x)(cdr x)) seqs)))))
+ 
+ ;Exercise 2.38
+ (define (fold-left op initial sequence)
+   (define (iter result rest)
+     (if (null? rest)
+         result
+         (iter (op result (car rest))
+               (cdr rest))))
+   (iter initial sequence))
+ 
+ (define (fold-right op initial sequence)
+   (accumulate op initial sequence))
+ 
+ ;Exercise 2.39
+ (define (fold-reverse sequence)
+   (fold-left (lambda(x y) (cons y x)) '() sequence))
