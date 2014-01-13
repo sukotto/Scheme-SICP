@@ -269,6 +269,36 @@
        (cons (accumulate op init (map (lambda(x)(car x)) seqs))
              (accumulate-n op init (map(lambda(x)(cdr x)) seqs)))))
  
+ 
+ ;Exercise 2.37.
+ (define (dot-product v w)
+  (accumulate + 0 (map * v w)))
+ 
+ (define (matrix-*-vector m v)
+    (map (lambda(x)(dot-product x v)) m))
+ 
+ (define (transpose mat)
+   (accumulate-n cons '() mat))
+ 
+ (define (matrix-*-matrix m n)
+   (let((cols (transpose n)))
+     (transpose
+      (map (lambda(x)(matrix-*-vector m x))cols))))
+ ;Sample data to test operations
+ (define m1 '((1 2 3 4)
+              (4 5 6 6)
+              (6 7 8 9)))
+ 
+ (define v1 '(1 2 3 4))
+   
+ (define m2 '((1 2 3)
+              (4 5 6)))
+ 
+ (define m3 '((7 8)
+              (9 10)
+              (11 12)))
+                             
+ 
  ;Exercise 2.38
  (define (fold-left op initial sequence)
    (define (iter result rest)
