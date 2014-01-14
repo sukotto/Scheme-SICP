@@ -308,6 +308,8 @@
 (define (compose f g)
   (λ(x)(f(g x))))
 
-;Make square function available from other files
+;Make the following functions available from other files
 ;which have (require "ch1.rkt")
 (provide square)
+
+(provide prime?)

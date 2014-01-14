@@ -308,5 +308,6 @@
 (define (compose f g)
   (λ(x)(f(g x))))
 
-(provide (square))
-
+;Make square function available from other files
+;which have (require "ch1.rkt")
+(provide square)
