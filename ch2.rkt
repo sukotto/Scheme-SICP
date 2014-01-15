@@ -334,4 +334,45 @@
  (define (prime-sum-pairs n)
    (map make-pair-sum
         (filter prime-sum? (unique-pairs n))))
+ 
+ ; Exercise 2.42.
+ (define (adjoin-position new-row k rest-of-queens)
+   (let([row-column (cons new-row k)])
+     (cons row-column rest-of-queens)))
+ 
+ (define (row position)
+   (car position))
+ 
+ (define (col position)
+   (cdr position))
+ 
+ (define (safe? k positions)
+   (let([queen (car positions)]
+        [other-queens (cdr positions)]
+        [result #t])
+     (for ([other-queen other-queens])
+       (when (or (= (row queen)(row other-queen))
+         (=(row other-queen)
+            (-(row queen)(-(col queen)(col other-queen))))
+         (=(row other-queen)
+           (+(row queen)(-(col queen)(col other-queen)))))
+           (set! result #f)))
+     result))
+ 
+ (define empty-board '())
+ 
+ (define (queens board-size)
+  (define (queen-cols k)  
+    (if (= k 0)
+        (list empty-board)
+        (filter
+         (lambda (positions) (safe? k positions))
+         (flatmap
+          (lambda (rest-of-queens)
+            (map (lambda (new-row)
+                   (adjoin-position new-row k rest-of-queens))
+                 (enumerate-interval 1 board-size)))
+          (queen-cols (- k 1))))))
+  (queen-cols board-size))
+   
    
