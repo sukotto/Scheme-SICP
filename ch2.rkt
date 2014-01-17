@@ -457,10 +457,10 @@
         ((equal? x (car set)) true)
         (else (element-of-set? x (cdr set)))))
  
- (define (adjoin-set x set)
-  (if (element-of-set? x set)
-      set
-      (cons x set)))
+; (define (adjoin-set x set)
+;  (if (element-of-set? x set)
+;      set
+;      (cons x set)))
  
  (define (intersection-set set1 set2)
   (cond ((or (null? set1) (null? set2)) '())
@@ -475,3 +475,13 @@
    (cond((null? set1)set2)
         ((null? set2)set1)
         (else (union-set (cdr set1) (adjoin-set (car set1) set2)))))
+ 
+ ;Exercise 2.61.
+ ;Adjoin-set using the ordered representation
+ (define (adjoin-set x set)
+  (cond[(empty? set) (list x)]
+       [(element-of-set? x set) set]
+       [ (< x (car set)) (cons x set)]
+       [else (cons (car set) (adjoin-set x (cdr set)))]))
+ 
+ 
